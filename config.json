@@ -1,0 +1,14 @@
+{
+  "session_name": "destrucTG",
+  "api_id": 29612901,
+  "api_hash": "abcdefghijklmnopqrstuvwxyz123456",
+  "target_channel": "@channel1",
+  "sources": [
+    "@channel2"
+  ],
+  "chance": 100,
+  "bottom_delay": 1,
+  "top_delay": 10,
+  "watermark_path": "",
+  "caption_text": ""
+}
