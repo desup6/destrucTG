@@ -6,9 +6,9 @@ from media_collector import MediaCollector
 
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-                    # filename="app.log",
-                    # filemode="a")
-                    )
+                    filename="app.log",
+                    filemode="a")
+
 logger = logging.getLogger(__name__)
 
 with open("config.json", "r") as f:
@@ -34,6 +34,7 @@ async def main():
                                CHANCE,
                                BOTTOM_DELAY,
                                TOP_DELAY,
+                               WATERMARK_PATH,
                                CAPTION_TEXT)
     await collector.init_client()
     await collector.client.run_until_disconnected()

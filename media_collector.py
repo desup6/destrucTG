@@ -6,6 +6,8 @@ from telethon.tl.types import MessageMediaPhoto, MessageMediaDocument
 from asyncio import Queue as AsyncQueue
 from datetime import datetime, timedelta
 
+from utils import add_watermark
+
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
                     filename="app.log",
@@ -14,7 +16,7 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 class MediaCollector:
-    def __init__(self, session_name, api_id, api_hash, target_channel, sources, chance, bottom_delay, top_delay, caption_text):
+    def __init__(self, session_name, api_id, api_hash, target_channel, sources, chance, bottom_delay, top_delay, watermark_path, caption_text):
         self.collected_media = AsyncQueue()
         self.session_name = session_name
         self.api_id = api_id
@@ -24,6 +26,10 @@ class MediaCollector:
         self.chance = chance
         self.bottom_delay = bottom_delay
         self.top_delay = top_delay
+        if watermark_path:
+            self.watermark = open(watermark_path, "rb")
+        else:
+            self.watermark = None
         self.caption_text = caption_text
         self.client = None
 
@@ -48,6 +54,9 @@ class MediaCollector:
         logger.info("Added outgoing messages handler")
 
     async def schedule_media(self, media):
+        if self.watermark:
+            image_bytes = await self.client.download_media(media, file=bytes)
+            media = add_watermark(image_bytes, self.watermark)
         now = datetime.now()
         target_time = now + timedelta(minutes=random.randint(self.bottom_delay, self.top_delay))
         await self.client.send_file(
