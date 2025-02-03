@@ -357,6 +357,7 @@ class MediaProcessor:
         sender = await event.get_sender()
         if sender.id not in self.admins:
             return
+        await self.db_manager.update_subscription(sender.id, 1)
         await self.db_manager.update_user_state(sender.id, "idle")
         reply_message = await event.reply("Welcome to destrucTG control bot.\nPress the button below to continue.",
                                           buttons=[[Button.inline("Start", data="main")]]
@@ -668,7 +669,7 @@ class MediaProcessor:
         data = event.data.decode("utf-8").split("_")
         admin_id = int(data[2])
         super_admin = int(data[3])
-        await self.db_manager.add_admin(admin_id, None, None, 1, super_admin)
+        await self.db_manager.add_admin(admin_id, None, None, 0, super_admin)
         self.admins.append(admin_id)
         await event.edit(f"Admin {admin_id} successfully added.",
                          buttons=[[Button.inline("Back", data="manage_admins")]]
