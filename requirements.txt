@@ -1,0 +1,4 @@
+asyncio~=3.4.3
+pillow~=11.1.0
+aiosqlite~=0.20.0
+Telethon~=1.38.1
