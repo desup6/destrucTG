@@ -1229,6 +1229,7 @@ class MediaProcessor:
         logger.info("Mediafile from scheduled was sent")
         source_id, message_id, _ = await self.db_manager.get_scheduled_post()
         if source_id is not None and message_id is not None:
+            await self.db_manager.delete_scheduled_post(source_id, message_id)
             await self.schedule_media(source_id, message_id, True)
         else:
             logger.info("No mediafile in db to schedule")
