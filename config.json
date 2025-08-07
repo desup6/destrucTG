@@ -1,9 +1,0 @@
-{
-  "client_session_name": "destrucTG",
-  "bot_session_name": "destrucTG_bot",
-  "api_id": 12345678,
-  "api_hash": "hash",
-  "bot_token": "TOKEN",
-  "main_admin": 1234567890,
-  "target_channel": "@target"
-}
